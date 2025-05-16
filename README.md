@@ -5,8 +5,8 @@ A firmware tool 🛠️ for testing SWI (Single-Wire Interface) EEPROM emulators
 ## 📑 Table of Contents
 
 * [✨ Features](#features)
-* [Hardware 💾 Requirements](#hardware-requirements)
-* [Software 💻 Requirements](#software-requirements)
+* [💾 Hardware Requirements](#hardware-requirements)
+* [💻 Software Requirements](#software-requirements)
 * [🛠️ Installation](#installation)
     * [Prerequisites](#prerequisites)
     * [1\. Fetch the Pico SDK](#1-fetch-the-pico-sdk)
@@ -16,12 +16,14 @@ A firmware tool 🛠️ for testing SWI (Single-Wire Interface) EEPROM emulators
 * [💡 Usage](#usage)
     * [JSON Command Format](#json-command-format)
     * [Command Details](#command-details)
+* [💡 Examples of Use](#examples-of-use)
 * [⚙️ Implementation Details](#implementation-details)
 * [⏱️ Timing](#timing)
-* [🤝 Contributing](#contributing)
 * [📜 License](#license)
+* [🤝 Contributing](#contributing)
 * [✍️ Author](#author)
 
+<a name="features"></a>
 ## ✨ Features
 
 * Sends commands to an SWI EEPROM emulator.
@@ -34,6 +36,7 @@ A firmware tool 🛠️ for testing SWI (Single-Wire Interface) EEPROM emulators
 
 ---
 
+<a name="hardware-requirements"></a>
 ## 💾 Hardware Requirements
 
 * Raspberry Pi Pico 2 (RP2350) or Raspberry Pi Pico (RP2040)
@@ -42,11 +45,13 @@ A firmware tool 🛠️ for testing SWI (Single-Wire Interface) EEPROM emulators
 
 ---
 
+<a name="software-requirements"></a>
 ## 💻 Software Requirements
 
 * Raspberry Pi Pico [SDK](https://github.com/raspberrypi/pico-sdk)
 * ARM GCC compiler [Toolchain](https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain)
 
+<a name="installation"></a>
 ## 🛠️ Installation
 
 This guide outlines the steps to set up the development environment and build the PicoSWITool project on Ubuntu 24.04.
@@ -184,6 +189,7 @@ With these steps, you should have a fully set up development environment and be 
 
 ---
 
+<a name="usage"></a>
 ## 💡 Usage
 
 The tool communicates via USB serial. Send JSON-formatted commands to the Pico, and it will respond with JSON-formatted responses.
@@ -272,6 +278,7 @@ The command returns the requested block of data.
 ```
 ---
 
+<a name="examples-of-use"></a>
 ## 💡 Examples of Use
 
 This section demonstrates how to interact with the PicoSWITool using JSON commands via the USB serial interface.
@@ -389,6 +396,7 @@ This example illustrates how to use the `readBlock` command to retrieve a contig
 
 ---
 
+<a name="implementation-details"></a>
 ## ⚙️ Implementation Details
 
 * The project is built using the Raspberry Pi Pico 2 SDK and targets the RP2350 microcontroller.
@@ -406,6 +414,7 @@ This example illustrates how to use the `readBlock` command to retrieve a contig
 
 ---
 
+<a name="timing"></a>
 ## ⏱️ Timing
 
 The code includes timing constants optimized for SWI communication. These constants may need to be adjusted based on the specific EEPROM device or emulator being used. The code defines different timing presets (Prusa, Atmel Standard, Atmel High Speed).
@@ -418,12 +427,14 @@ The code includes timing constants optimized for SWI communication. These consta
 
 ---
 
+<a name="license"></a>
 ## 📜 License
 
 [MIT License](LICENSE) – © jjsch-dev (2025)
 
 You can freely use and modify this code as long as you include the original license.
 
+<a name="contributing"></a>
 ## 🧑‍💻 Contributing
 
 For contributions or improvements:
@@ -435,6 +446,7 @@ Or open issues or feature requests directly on the repository.
 
 ---
 
+<a name="author"></a>
 ## 📬 Contact & Credits
 
 - **Author**: jjsch-dev  
