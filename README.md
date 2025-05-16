@@ -273,12 +273,18 @@ The command returns the requested block of data.
 
 ## ⚙️ Implementation Details
 
-* The code is designed for the Raspberry Pi Pico 2 (RP2350) and uses the Pico SDK[cite: 1, 2].
-* It leverages the RP2040's dual-core capability: Core 0 handles USB communication and command parsing, while Core 1 manages the time-sensitive SWI communication.
-* SWI EEPROM emulation is achieved through open-drain GPIO control.
-* JSON parsing is done using the `jsmn` library.
-* The `CMakeLists.txt` file is used to build the project[cite: 3].
-* USB serial communication is enabled, and UART is disabled[cite: 2].
+* The project is built using the Raspberry Pi Pico 2 SDK and targets the RP2350 microcontroller.
+* **⏱️ Timing Considerations:**
+    * While the Raspberry Pi Pico's PIO (Programmable Input/Output) units 🕹️ offer the capability to generate precise bit-bang timing, this project utilizes software-based delays ⏳ for greater flexibility during testing. This allows for easier adjustment of timing parameters to accommodate different EEPROM devices or emulation scenarios.
+    * Precise timing is achieved on Core 1 using the `soft_delay_us()` function ⚙️. This function employs cycle counting to introduce delays in microseconds, taking into account the Pico's clock speed.
+    * The delay is calculated based on the following:
+        * For the original Pico (125 MHz), each CPU cycle is approximately 8 ns.
+        * For the Pico 2 (150 MHz), each CPU cycle is approximately 6.67 ns.
+    * The `soft_delay_us()` function includes a calibration constant (currently -7) that may need to be fine-tuned 🛠️ for specific hardware setups to achieve the most accurate timing.
+* Dual-Core Operation: Core 0 handles the USB communication ↔️ and parsing of JSON commands. Core 1 is dedicated to the precise timing required for the SWI communication, using the `multicore_fifo_push_blocking()` and `multicore_fifo_pop_blocking()` functions for inter-core communication.
+* SWI Emulation: The SWI communication is implemented using open-drain GPIO control 🔌. The `sio_set_high()` function sets the GPIO pin to input mode (high), and `sio_set_low()` sets it to output mode (low).
+* JSON Parsing: The `jsmn` library is used to parse the incoming JSON commands 🧾. The `jsoneq()` function is used to compare JSON tokens.
+* Building: The `CMakeLists.txt` file 🧱 defines the build process, including setting compiler flags and linking libraries.
 
 ---
 
