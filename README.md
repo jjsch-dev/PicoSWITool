@@ -318,6 +318,45 @@ Sending `{"command": "discoveryResponse"}` repeatedly helps test the emulator's 
 
 ---
 
+### Manufacturer ID Example
+
+The `manufacturerId` command retrieves the unique identification code of the connected EEPROM emulator. This example demonstrates sending the command and interpreting a typical response.
+
+**Scenario:** Requesting the manufacturer and device ID of the EEPROM emulator.
+
+**Command Sent (via USB Serial):**
+
+```json
+{"command": "manufacturerId", "dev_addr": "0x00"}
+```
+
+**Observed Response (in Arduino IDE 2.0 Serial Monitor - as seen in image):**
+
+![manuf_id](images/tyy_mnuf_id.png)
+
+The PicoSWITool will send a sequence of SWI commands to the EEPROM emulator to retrieve its ID. A successful response will look similar to this:
+
+```json
+{"status": "success", "command": "manufacturerId", "response": "0x00D380"}
+```
+
+![rigol_manuf_id](images/Rigol_manuf_id.png)
+
+In this example, the response `0x00D380` indicates an AT21CS11 EEPROM device. The oscilloscope capture in Image likely shows the low-level SWI communication occurring during this command execution.
+
+**Interpreting the Response:**
+
+* The `response` field contains the manufacturer and device ID.
+* `0x00D200` typically identifies an AT21CS01 EEPROM.
+* `0x00D380` typically identifies an AT21CS11 EEPROM.
+* A response of `{"status":"error","command":"manufacturerId","response":"Error: Manufacturer ID is zero"}` or a similar error message indicates that the command failed or the device did not respond correctly.
+
+This example illustrates how to use the `manufacturerId` command and interpret the returned identification code.
+
+```
+
+---
+
 ## ⚙️ Implementation Details
 
 * The project is built using the Raspberry Pi Pico 2 SDK and targets the RP2350 microcontroller.
