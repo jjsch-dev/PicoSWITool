@@ -98,9 +98,9 @@
 // Global timing variables.
 // These are used by the bit-banging functions to generate precise delays.
 // Note: Since operations are blocking, these values remain constant during a single transaction.
-#define time_bit   	    T_PRUSA_BIT_US // test
-#define time_rd    	    T_PRUSA_RD_US
-#define time_mrs   	    T_PRUSA_MRS_US
+#define time_bit        T_PRUSA_BIT_US
+#define time_rd         T_PRUSA_RD_US
+#define time_mrs        T_PRUSA_MRS_US
 #define time_low1       T_PRUSA_LOW1_US
 #define time_low0       T_PRUSA_LOW0_US
 #define tx_one_btime    (T_PRUSA_BIT_US - T_PRUSA_LOW1_US)
@@ -374,8 +374,8 @@ void core1_entry(void) {
 #define OPCODE_EEPROM_ACCESS        0xA0    /* Read/Write the contents of the main memory array. */
 #define OPCODE_SEC_REG_ACCESS       0xB0    /* Read/Write the contents of the Security register. */
 #define OPCODE_LOCK_SEC_REG         0X20    /* Permanently lock the contents of the Security register. */
-#define OPCODE_ROM_ZONE_REG_ACCESS 	0x70    /* Inhibit further modification to a zone of the EEPROM array. */
-#define OPCODE_FREEZE_ROM	        0x10    /* Permanently lock the current state of the ROM Zone registers. */
+#define OPCODE_ROM_ZONE_REG_ACCESS  0x70    /* Inhibit further modification to a zone of the EEPROM array. */
+#define OPCODE_FREEZE_ROM           0x10    /* Permanently lock the current state of the ROM Zone registers. */
 #define OPCODE_MANUFACTURER_ID      0xC0    /* Query manufacturer and density of device. */
 #define OPCODE_STANDARD_SPEED		0xD0    /* Switch to Standard Speed mode operation (AT21CS01 only
                                                command, the AT21CS11 will NACK this command). */
