@@ -199,8 +199,6 @@ uint8_t discovery_response(void) {
     soft_delay_us(3); //(2);    // tMSDR
     temp = (sio_get_value() == 0) ? 0x00 : 0xFF;
     soft_delay_us(150); //(21);   // tDACK delay
-    //sio_set_high();
-
     return temp;
 }
 
@@ -303,7 +301,6 @@ uint8_t read_byte(uint8_t ack) {
     } else {
         tx_zero();
     }
-    
     return data_byte;
 }
 
@@ -365,7 +362,6 @@ void core1_entry(void) {
                 break;
         }
         restore_interrupts(irq_status);
-        
         // Send the ACK or response back to Core0.
         multicore_fifo_push_blocking(ack);
     }
@@ -435,7 +431,6 @@ int load_address(uint8_t dev_addr, uint8_t data_addr) {
     if (send_cmd(TX_BYTE, data_addr)) { 
         return -3;
     }
-    
     return 1;
 }
 
@@ -487,7 +482,6 @@ int verified_read(uint8_t dev_addr, uint8_t data_addr) {
     } else if (data[2] == data[0]) {
         return data[2];
     }    
-    
     return -1;
 }
 
@@ -525,7 +519,6 @@ int read_block(uint8_t dev_addr, uint8_t data_addr, uint8_t *buffer, uint8_t len
         }
         buffer[i] = (uint8_t) res;
     }
-    
     return 1; // Success.
 }
 
