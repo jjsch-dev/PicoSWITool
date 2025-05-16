@@ -297,7 +297,7 @@ The `discoveryResponse` command tests the EEPROM emulator's response to a discov
 
 **Observed Responses (in Arduino IDE 2.0 Serial Monitor):**
 
-![discovery_cmd](images/tty_discovery_150uS.png)
+![discovery_cmd](images/tty_discovery_cmd.png)
 
 The PicoSWITool sends a reset pulse (approx. 150µs). The emulator's reply might be:
 
