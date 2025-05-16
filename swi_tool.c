@@ -98,14 +98,14 @@
 // Global timing variables.
 // These are used by the bit-banging functions to generate precise delays.
 // Note: Since operations are blocking, these values remain constant during a single transaction.
-#define time_bit   		T_PRUSA_BIT_US
-#define time_rd    		T_PRUSA_RD_US
-#define time_mrs   		T_PRUSA_MRS_US
-#define time_low1  		T_PRUSA_LOW1_US
-#define time_low0  		T_PRUSA_LOW0_US
-#define tx_one_btime 	(T_PRUSA_BIT_US - T_PRUSA_LOW1_US)
-#define tx_zero_btime 	(T_PRUSA_BIT_US - T_PRUSA_LOW0_US)
-#define rd_btime 		(T_PRUSA_BIT_US - T_PRUSA_RD_US - T_PRUSA_MRS_US)
+#define time_bit   	    T_PRUSA_BIT_US
+#define time_rd    	    T_PRUSA_RD_US
+#define time_mrs   	    T_PRUSA_MRS_US
+#define time_low1       T_PRUSA_LOW1_US
+#define time_low0       T_PRUSA_LOW0_US
+#define tx_one_btime    (T_PRUSA_BIT_US - T_PRUSA_LOW1_US)
+#define tx_zero_btime   (T_PRUSA_BIT_US - T_PRUSA_LOW0_US)
+#define rd_btime        (T_PRUSA_BIT_US - T_PRUSA_RD_US - T_PRUSA_MRS_US)
 
 /**
  * @brief Sets the single-wire pin to a high state.
@@ -194,7 +194,7 @@ uint8_t discovery_response(void) {
     soft_delay_us(100); //(20);   // tRRT
 
     sio_set_low();
-    soft_delay_us(1);    // tDRR
+    soft_delay_us(1); // tDRR
     sio_set_high();
     soft_delay_us(3); //(2);    // tMSDR
     temp = (sio_get_value() == 0) ? 0x00 : 0xFF;
@@ -258,7 +258,7 @@ uint8_t ack_nack(void) {
 }
 
 void stop_con() {
-	soft_delay_us(500);
+    soft_delay_us(500);
 }
 
 /**
@@ -299,9 +299,9 @@ uint8_t read_byte(uint8_t ack) {
     }
     
     if(ack) {
-    	tx_one();
+        tx_one();
     } else {
-    	tx_zero();
+        tx_zero();
     }
     
     return data_byte;
@@ -371,18 +371,17 @@ void core1_entry(void) {
     }
 }
 
-#define OPCODE_EEPROM_ACCESS    	0xA0  	/* Read/Write the contents of the main memory array. */
-#define OPCODE_SEC_REG_ACCESS		0xB0	/* Read/Write the contents of the Security register. */
-#define OPCODE_LOCK_SEC_REG 		0X20	/* Permanently lock the contents of the Security register. */
-#define OPCODE_ROM_ZONE_REG_ACCESS 	0x70	/* Inhibit further modification to a zone of the EEPROM array. */
-#define OPCODE_FREEZE_ROM			0x10	/* Permanently lock the current state of the ROM Zone registers. */
-#define OPCODE_MANUFACTURER_ID 		0xC0	/* Query manufacturer and density of device. */
-#define OPCODE_STANDARD_SPEED		0xD0	/* Switch to Standard Speed mode operation (AT21CS01 only
-											   command, the AT21CS11 will NACK this command). */
-#define OPCODE_HIGH_SPEED			0xE0	/* Switch to High-Speed mode operation (AT21CS01 power‑on default.
-										       AT21CS11 will ACK this command). */
-
-#define	RW_BIT						0x01    /* The last bit of the opcode set Read (1) or Write (0) operation. */
+#define OPCODE_EEPROM_ACCESS        0xA0    /* Read/Write the contents of the main memory array. */
+#define OPCODE_SEC_REG_ACCESS       0xB0    /* Read/Write the contents of the Security register. */
+#define OPCODE_LOCK_SEC_REG         0X20    /* Permanently lock the contents of the Security register. */
+#define OPCODE_ROM_ZONE_REG_ACCESS 	0x70    /* Inhibit further modification to a zone of the EEPROM array. */
+#define OPCODE_FREEZE_ROM	        0x10    /* Permanently lock the current state of the ROM Zone registers. */
+#define OPCODE_MANUFACTURER_ID      0xC0    /* Query manufacturer and density of device. */
+#define OPCODE_STANDARD_SPEED		0xD0    /* Switch to Standard Speed mode operation (AT21CS01 only
+                                               command, the AT21CS11 will NACK this command). */
+#define OPCODE_HIGH_SPEED           0xE0    /* Switch to High-Speed mode operation (AT21CS01 power‑on default.
+                                               AT21CS11 will ACK this command). */
+#define	RW_BIT                      0x01    /* The last bit of the opcode set Read (1) or Write (0) operation. */
 
 /**
  * @brief Sends a command (with associated data) to Core1 and waits for a response.
@@ -407,17 +406,17 @@ uint8_t send_cmd(uint8_t cmd, uint8_t data) {
  * @return Manufacturer ID
  */
 uint32_t read_mfr_id(uint8_t dev_addr) {
-	uint32_t id = 0;
-	uint8_t ack = send_cmd(DISCOVERY, 0);
+    uint32_t id = 0;
+    uint8_t ack = send_cmd(DISCOVERY, 0);
     if( !ack ) {
-		ack = send_cmd(TX_BYTE, OPCODE_MANUFACTURER_ID | dev_addr | RW_BIT);
+        ack = send_cmd(TX_BYTE, OPCODE_MANUFACTURER_ID | dev_addr | RW_BIT);
 		
-		if(!ack) {
-			id = id | (send_cmd(RX_BYTE, SEND_ACK) << 16);
-			id = id | (send_cmd(RX_BYTE, SEND_ACK) << 8);
-			id = id | (send_cmd(RX_BYTE, SEND_NACK) << 0);
-		}
-	}	    
+        if(!ack) {
+            id = id | (send_cmd(RX_BYTE, SEND_ACK) << 16);
+            id = id | (send_cmd(RX_BYTE, SEND_ACK) << 8);
+            id = id | (send_cmd(RX_BYTE, SEND_NACK) << 0);
+        }
+    }	    
     return id;
 }
 
