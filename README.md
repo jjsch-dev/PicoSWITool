@@ -204,7 +204,8 @@ Performs the SWI EEPROM discovery response sequence. This command triggers a ser
 ```
 * Response: 
 ```json
-{"status": "success", "command": "discoveryResponse", "response": "ACK"} or {"status": "success", "command": "discoveryResponse", "response": "NACK"}
+{"status": "success", "command": "discoveryResponse", "response": "ACK"} or 
+{"status": "success", "command": "discoveryResponse", "response": "NACK"}
 ```
 ### ➡️ `txByte`
 Transmits a single byte to the SWI EEPROM emulator. This command sends the provided byte bit-by-bit, utilizing specific functions (`tx_one()` or `tx_zero()`) to represent each bit's value on the SWI bus. After the byte transmission is complete, the tool reads the response from the emulator, which should be an ACK (acknowledgement) indicating successful reception or a NACK (not acknowledgement) indicating an error.
@@ -216,7 +217,8 @@ Transmits a single byte to the SWI EEPROM emulator. This command sends the provi
 ```
 * Response: 
 ```json
-{"status": "success", "command": "txByte", "response": "ACK"} or {"status": "success", "command": "txByte", "response": "NACK"}
+{"status": "success", "command": "txByte", "response": "ACK"} or 
+{"status": "success", "command": "txByte", "response": "NACK"}
 ```
 
 ### ⬅️ `rxByte`
@@ -228,7 +230,8 @@ Receives a single byte from the SWI EEPROM emulator. This command reads 8 consec
 ```
 * Response: 
 ```json
-{"status": "success", "command": "rxByte", "response": "0xYY"} (where 0xYY is the received byte)
+{"status": "success", "command": "rxByte", "response": "0xYY"} 
+(where 0xYY is the received byte)
 ```
 
 ###  🆔 `manufacturerId`
@@ -240,7 +243,9 @@ Retrieves the manufacturer and device identification code from the SWI EEPROM em
 ```
 * Response: 
 ```json
-{"status": "success", "command": "manufacturerId", "response": "0x00XXXX"} (e.g., 0x00D200 for AT21CS01, 0x00D380 for AT21CS11) or {"status":"error","command":"manufacturerId","response":"Error: Manufacturer ID is zero"}
+{"status": "success", "command": "manufacturerId", "response": "0x00XXXX"} 
+(e.g., 0x00D200 for AT21CS01, 0x00D380 for AT21CS11) or 
+{"status":"error","command":"manufacturerId","response":"Error: Manufacturer ID is zero"}
 ```
 
 ###  📚 `readBlock`
