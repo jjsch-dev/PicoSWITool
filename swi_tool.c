@@ -98,7 +98,7 @@
 // Global timing variables.
 // These are used by the bit-banging functions to generate precise delays.
 // Note: Since operations are blocking, these values remain constant during a single transaction.
-#define time_bit   	    T_PRUSA_BIT_US
+#define time_bit   	    T_PRUSA_BIT_US // test
 #define time_rd    	    T_PRUSA_RD_US
 #define time_mrs   	    T_PRUSA_MRS_US
 #define time_low1       T_PRUSA_LOW1_US
