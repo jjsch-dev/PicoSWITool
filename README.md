@@ -200,11 +200,11 @@ Performs the SWI EEPROM discovery response sequence. This command triggers a ser
 
 * Command:
 ```json
-{"command": "txByte", "data": "0x55"}
+{"command": "discoveryResponse"}
 ```
 * Response: 
 ```json
-{"status": "success", "command": "discoveryResponse", "response": "ACK"}` or {"status": "success", "command": "discoveryResponse", "response": "NACK"}
+{"status": "success", "command": "discoveryResponse", "response": "ACK"} or {"status": "success", "command": "discoveryResponse", "response": "NACK"}
 ```
 ### ➡️ `txByte`
 Transmits a single byte to the SWI EEPROM emulator. This command sends the provided byte bit-by-bit, utilizing specific functions (`tx_one()` or `tx_zero()`) to represent each bit's value on the SWI bus. After the byte transmission is complete, the tool reads the response from the emulator, which should be an ACK (acknowledgement) indicating successful reception or a NACK (not acknowledgement) indicating an error.
@@ -212,6 +212,7 @@ Transmits a single byte to the SWI EEPROM emulator. This command sends the provi
 * Command:
 ```json 
 {"command": "txByte", "data": "0x55"}
+(Replace "0x55" with the byte value to transmit in hexadecimal format.)
 ```
 * Response: 
 ```json
