@@ -177,7 +177,7 @@ To run the firmware on your Pico:
 
 * **`PICO_SDK_PATH` not set:** Double-check that the `export PICO_SDK_PATH=...` line in your shell startup file correctly points to the location where you cloned the Pico SDK. Ensure you have sourced the file or restarted your terminal.
 * **Compiler errors about missing headers:** Verify the output of the `cmake` command. It should indicate the board configuration being used (e.g., "Using board configuration from .../boards/pico.h" or "boards/pico2.h"). If it's not finding the board configuration, there might be an issue with the `PICO_SDK_PATH` or the `cmake` command itself.
-* **Performance/timing off (for Pico 2):** If you are using a Raspberry Pi Pico 2 (RP2040 with Cortex-M33), ensure you configured the build with the appropriate `-DPICO_BOARD` flag (e.g., `-DPICO_BOARD=pico2`). Also, be aware that timing-sensitive code might need adjustments for the different core speed.
+* **Performance/timing off (for Pico 2):** If you are using a Raspberry Pi Pico 2 (RP2350 with Cortex-M33), ensure you configured the build with the appropriate `-DPICO_BOARD` flag (e.g., `-DPICO_BOARD=pico2`). Also, be aware that timing-sensitive code might need adjustments for the different core speed.
 
 With these steps, you should have a fully set up development environment and be able to build and flash the PicoSWITool firmware to your Raspberry Pi Pico.
 
@@ -195,7 +195,8 @@ Commands are sent as JSON objects with a `"command"` field and any necessary dat
 
 Here's a breakdown of the supported commands:
 
-#### `discoveryResponse`
+#### 🔍 `discoveryResponse`
+Performs the SWI EEPROM discovery response sequence. This command triggers a series of pin toggles on the Pico to simulate the EEPROM's response to a discovery request. The master device (your testing setup) typically sends a general bus call after a reset to identify any connected devices on the SWI bus. If a device is present, it should send the ACK sequence.
 
 * Command:
 ```json
@@ -203,39 +204,57 @@ Here's a breakdown of the supported commands:
 ```
 * Response: 
 ```json
-{"status": "success", "command": "discoveryResponse", "response": "ACK"}` or `{"status": "success", "command": "discoveryResponse", "response": "NACK"}
+{"status": "success", "command": "discoveryResponse", "response": "ACK"}` or {"status": "success", "command": "discoveryResponse", "response": "NACK"}
 ```
-### `txByte`
+### ➡️ `txByte`
+Transmits a single byte to the SWI EEPROM emulator. This command sends the provided byte bit-by-bit, utilizing specific functions (`tx_one()` or `tx_zero()`) to represent each bit's value on the SWI bus. After the byte transmission is complete, the tool reads the response from the emulator, which should be an ACK (acknowledgement) indicating successful reception or a NACK (not acknowledgement) indicating an error.
+
 * Command:
 ```json 
 {"command": "txByte", "data": "0x55"}
 ```
 * Response: 
 ```json
-{"status": "success", "command": "txByte", "response": "ACK"}` or `{"status": "success", "command": "txByte", "response": "NACK"}`
+{"status": "success", "command": "txByte", "response": "ACK"} or {"status": "success", "command": "txByte", "response": "NACK"}
 ```
 
-### `rxByte`
+### ⬅️ `rxByte`
+Receives a single byte from the SWI EEPROM emulator. This command reads 8 consecutive bits from the SWI bus, utilizing a bit reading function (`read_bit()`). The function handles the necessary pin toggling and precise timing required by the SWI protocol to correctly sample each bit from the EEPROM interface. These 8 bits are then combined to form the received byte, which is included in the response.
+
 * Command: 
 ```json
 {"command": "rxByte"}
 ```
 * Response: 
 ```json
-{"status": "success", "command": "rxByte", "response": "0xYY"} (where `0xYY` is the received byte)
+{"status": "success", "command": "rxByte", "response": "0xYY"} (where 0xYY is the received byte)
 ```
 
-### `manufacturerId`
+###  🆔 `manufacturerId`
+Retrieves the manufacturer and device identification code from the SWI EEPROM emulator. The response provides a unique code, such as `0x00D200` for the AT21CS01 or `0x00D380` for the AT21CS11. This command internally uses a sequence of lower-level SWI operations, including discovery, byte transmission (`txByte`), and byte reception (`rxByte`), to construct the necessary communication to obtain this ID. A response of zero typically indicates an error or that no device responded.
+
 * Command: 
 ```json
 {"command": "manufacturerId", "dev_addr": "0x00"}
 ```
 * Response: 
 ```json
-{"status": "success", "command": "manufacturerId", "response": "0x00XXXX"} (e.g., `0x00D200` for AT21CS01, `0x00D380` for AT21CS11) or `{"status":"error","command":"manufacturerId","response":"Error: Manufacturer ID is zero"}`
+{"status": "success", "command": "manufacturerId", "response": "0x00XXXX"} (e.g., 0x00D200 for AT21CS01, 0x00D380 for AT21CS11) or {"status":"error","command":"manufacturerId","response":"Error: Manufacturer ID is zero"}
 ```
 
-### `readBlock`
+###  📚 `readBlock`
+Reads a block of data from the SWI EEPROM emulator. This command retrieves a specified number of bytes from the EEPROM, starting at a given address. It performs several checks and operations to ensure reliable data retrieval:
+
+* **Address Validation:** It verifies that the requested memory block (defined by the starting address and length) does not exceed the valid memory range of the EEPROM (0-127 in this example).
+* **Presence Check:** It initiates an EEPROM discovery sequence to confirm that the EEPROM emulator is present and responding on the SWI bus.
+* **Verified Reading:** It employs a verified read procedure, where each byte is read from the EEPROM multiple times to ensure data integrity.
+
+* `dev_addr`: The device address for EEPROM access.
+* `start_addr`: The starting address in the EEPROM (0-127).
+* `len`: The number of bytes to read.
+
+The command returns the requested block of data.
+
 * Command: 
 ```json
 {"command": "readBlock", "dev_addr": "0x00", "start_addr": "0x00", "len": "0x10"}
