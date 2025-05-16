@@ -340,9 +340,9 @@ The PicoSWITool will send a sequence of SWI commands to the EEPROM emulator to r
 {"status": "success", "command": "manufacturerId", "response": "0x00D380"}
 ```
 
-![rigol_manuf_id](images/Rigol_manuf_id.png)
-
 In this example, the response `0x00D380` indicates an AT21CS11 EEPROM device. The oscilloscope capture in Image likely shows the low-level SWI communication occurring during this command execution.
+
+![rigol_manuf_id](images/Rigol_manuf_id.png)
 
 **Interpreting the Response:**
 
@@ -352,6 +352,40 @@ In this example, the response `0x00D380` indicates an AT21CS11 EEPROM device. Th
 * A response of `{"status":"error","command":"manufacturerId","response":"Error: Manufacturer ID is zero"}` or a similar error message indicates that the command failed or the device did not respond correctly.
 
 This example illustrates how to use the `manufacturerId` command and interpret the returned identification code.
+
+---
+
+### Read Block Example
+
+The `readBlock` command allows you to read a sequence of bytes from a specified memory address in the EEPROM emulator. This example demonstrates how to request a block of data and interpret the response.
+
+**Scenario:** Reading 16 bytes (0x10) starting from address 0x00 of the EEPROM emulator on device address 0x00.
+
+**Command Sent (via USB Serial):**
+
+```json
+{"command": "readBlock", "dev_addr": "0x00", "start_addr": "0x00", "len": "0x10"}
+```
+
+**Observed Response (in Arduino IDE 2.0 Serial Monitor - as seen in Image):**
+
+![manuf_id](images/tty_read_block.png)
+
+The PicoSWITool will send a sequence of SWI commands to the EEPROM emulator to read the requested block of data. A successful response will contain an array of hexadecimal byte values:
+
+```json
+{"status":"success","command":"readBlock","response":["0x02", "0x20", "0x00", "0x1D", "0xCE", "0xCF", "0x03", "0x66", "0x30", "0x30", "0x31", "0x30", "0x39", "0x34", "0x32", "0x2D"]}
+```
+
+The `response` field is an array where each element represents a byte read from the EEPROM, in the order of the requested addresses. The oscilloscope capture in Image likely shows the low-level SWI communication occurring during the execution of this command, including address transmission and data reception.
+
+![rigol_manuf_id](images/Rigol_read_block.png)
+
+**Interpreting the Response:**
+
+In this example, the PicoSWITool successfully read 16 bytes starting from address `0x00`. The returned array contains these 16 bytes in hexadecimal format. You can compare these values to the expected data in your EEPROM emulator.
+
+This example illustrates how to use the `readBlock` command to retrieve a contiguous block of data for verification.
 
 ---
 
