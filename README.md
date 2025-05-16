@@ -386,7 +386,7 @@ The PicoSWITool will send a sequence of SWI commands to the EEPROM emulator to r
 
 The `response` field is an array where each element represents a byte read from the EEPROM, in the order of the requested addresses. The oscilloscope capture in Image likely shows the low-level SWI communication occurring during the execution of this command, including address transmission and data reception.
 
-![rigol_read_block](images/Rigol_read_block.png)
+![Oscilloscope Read Block](images/Rigol_read_block.png)
 
 **Interpreting the Response:**
 
