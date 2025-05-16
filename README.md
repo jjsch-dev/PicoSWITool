@@ -44,8 +44,8 @@ A firmware tool 🛠️ for testing SWI (Single-Wire Interface) EEPROM emulators
 
 ## 💻 Software Requirements
 
-* Raspberry Pi Pico SDK
-* ARM GCC compiler
+* Raspberry Pi Pico [SDK](https://github.com/raspberrypi/pico-sdk)
+* ARM GCC compiler [Toolchain](https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain)
 
 ## 🛠️ Installation
 
