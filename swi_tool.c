@@ -377,7 +377,7 @@ void core1_entry(void) {
 #define OPCODE_ROM_ZONE_REG_ACCESS  0x70    /* Inhibit further modification to a zone of the EEPROM array. */
 #define OPCODE_FREEZE_ROM           0x10    /* Permanently lock the current state of the ROM Zone registers. */
 #define OPCODE_MANUFACTURER_ID      0xC0    /* Query manufacturer and density of device. */
-#define OPCODE_STANDARD_SPEED		0xD0    /* Switch to Standard Speed mode operation (AT21CS01 only
+#define OPCODE_STANDARD_SPEED       0xD0    /* Switch to Standard Speed mode operation (AT21CS01 only
                                                command, the AT21CS11 will NACK this command). */
 #define OPCODE_HIGH_SPEED           0xE0    /* Switch to High-Speed mode operation (AT21CS01 power‑on default.
                                                AT21CS11 will ACK this command). */
