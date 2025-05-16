@@ -353,8 +353,6 @@ In this example, the response `0x00D380` indicates an AT21CS11 EEPROM device. Th
 
 This example illustrates how to use the `manufacturerId` command and interpret the returned identification code.
 
-```
-
 ---
 
 ## ⚙️ Implementation Details
