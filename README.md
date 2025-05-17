@@ -1,6 +1,6 @@
 # ⚙️ PicoSWITool
 
-A firmware tool 🛠️ for testing SWI (Single-Wire Interface) EEPROM emulators, specifically designed for the AT21CS11. This tool runs on Raspberry Pi Pico boards (RP2040 and RP2040) and facilitates sending commands and receiving responses to verify the functionality of an EEPROM emulation.
+A firmware tool 🛠️ for testing SWI (Single-Wire Interface) EEPROM emulators, specifically designed for the AT21CS11. This tool runs on Raspberry Pi Pico boards (RP2350 and RP2040) and facilitates sending commands and receiving responses to verify the functionality of an EEPROM emulation.
 
 ## 📑 Table of Contents
 
@@ -29,7 +29,7 @@ A firmware tool 🛠️ for testing SWI (Single-Wire Interface) EEPROM emulators
 * Sends commands to an SWI EEPROM emulator.
 * Receives and parses responses.
 * Supports various AT21CS11 commands (discovery, read/write, etc.).
-* Utilizes the RP2040's dual-core architecture for efficient timing and USB communication.
+* Utilizes the RP2350's dual-core architecture for efficient timing and USB communication.
 * Communicates via USB serial using JSON commands.
 * Provides feedback via JSON responses.
 * Provides a command-line interface via USB serial to interact with the EEPROM.
@@ -39,7 +39,7 @@ A firmware tool 🛠️ for testing SWI (Single-Wire Interface) EEPROM emulators
 <a name="hardware-requirements"></a>
 ## 💾 Hardware Requirements
 
-* Raspberry Pi Pico 2 (RP2350) or Raspberry Pi Pico (RP2040)
+* Raspberry Pi Pico 2 (RP2350) or Raspberry Pi Pico (RP2340)
 ![RP2350](images/pico2_over_emulator.png)
 * Device with an AT21CS11 SWI EEPROM interface or an [emulator](https://github.com/jjsch-dev/at21cs11-eeprom-emulator/) of it.
 
@@ -142,18 +142,17 @@ mkdir build && cd build
 
 ```bash
 # Configure the build for your Raspberry Pi Pico board:
-# For the original Pico (RP2040, 125 MHz Cortex-M0+)
-cmake -DPICO_BOARD=pico ..
+# For the original Pico 2 (RP2350, 150 MHz Cortex-M33 - Note: Check your specific board)
+cmake -DPICO_BOARD=pico2 ..
+```
+```bash
+# Or for the Raspberry Pi Pico 2 (RP2040, 125 MHz Cortex-M0+)
+# cmake -DPICO_BOARD=pico ..
 ```
 
 ```bash
 # Or for the Raspberry Pi Pico W / Pico H (RP2040 with wireless)
 # cmake -DPICO_BOARD=pico_w ..
-```
-
-```bash
-# Or for the Raspberry Pi Pico 2 (RP2350, 150 MHz Cortex-M33 - Note: Check your specific board)
-# cmake -DPICO_BOARD=pico2 ..
 ```
 
 ```bash
@@ -176,8 +175,11 @@ To run the firmware on your Pico:
 
 1.  Connect your Raspberry Pi Pico to your computer via USB while holding down the **BOOTSEL** button on the Pico board.
 2.  The Pico will enumerate as a USB mass storage device (usually named `RPI-RP2`).
-3.  Copy the `build/pico_swi_tool.uf2` file to the `RPI-RP2` drive.
-4.  Once the copy is complete, the Pico will automatically reboot and start running the PicoSWITool firmware.
+3.  **Choose the appropriate UF2 file for your Pico board and copy it to the `RPI-RP2` drive:**
+    * **Raspberry Pi Pico (RP2040):** You can download the pre-built UF2 file [here](bin/pico1_swi_tool.uf2). Copy `pico1_swi_tool.uf2` to the `RPI-RP2` drive.
+    * **Raspberry Pi Pico 2 (RP2350):** You can download the pre-built UF2 file [here](bin/pico2_swi_tool.uf2). Copy `pico2_swi_tool.uf2` to the `RPI-RP2` drive.
+    *(Note: If you built the project yourself, the UF2 file will also be available in the `build/` directory as `pico_swi_tool.uf2`.)*
+4.  Once the copy is complete, the board will automatically reboot and start running your firmware.
 
 ### Troubleshooting
 
