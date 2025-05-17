@@ -378,7 +378,7 @@ The `readBlock` command allows you to read a sequence of bytes from a specified 
 
 **Observed Response (in Arduino IDE 2.0 Serial Monitor - as seen in Image):**
 
-![manufId](images/tty_read_block.png)
+<img src="images/tty_read_block.png" alt="readBlock">
 
 The PicoSWITool will send a sequence of SWI commands to the EEPROM emulator to read the requested block of data. A successful response will contain an array of hexadecimal byte values:
 
