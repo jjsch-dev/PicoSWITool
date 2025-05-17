@@ -341,7 +341,7 @@ The `manufacturerId` command retrieves the unique identification code of the con
 
 **Observed Response (in Arduino IDE 2.0 Serial Monitor - as seen in image):**
 
-<img src="images/tyy_mnuf_id.png" alt="manufId" width="500">
+<img src="images/tyy_mnuf_id.png" alt="manufId">
 
 The PicoSWITool will send a sequence of SWI commands to the EEPROM emulator to retrieve its ID. A successful response will look similar to this:
 
