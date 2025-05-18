@@ -433,7 +433,7 @@ This example illustrates how to use the `readBlock` command to retrieve a contig
       ```
       *Disabling interrupts during these sections ensures accurate signal timing for reliable SWI emulation.*
 * **SWI Emulation:** The SWI communication is implemented using open-drain GPIO control 🔌. The `sio_set_high()` function sets the GPIO pin to input mode (high), and `sio_set_low()` sets it to output mode (low).
-* **JSON Parsing:** The `jsmn` library is used to parse the incoming JSON commands 🧾. The `jsoneq()` function is used to compare JSON tokens.
+* **JSON Parsing:** The [jsmn](https://github.com/zserge/jsmn) library — a lightweight, minimalistic JSON parser in C — is used to parse incoming JSON commands 🧾. The `jsoneq()` function is used to compare JSON tokens.
 * **Building:** The `CMakeLists.txt` file 🧱 defines the build process, including setting compiler flags and linking libraries.
 
 ---
