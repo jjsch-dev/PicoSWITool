@@ -409,10 +409,32 @@ This example illustrates how to use the `readBlock` command to retrieve a contig
         * For the original Pico (125 MHz), each CPU cycle is approximately 8 ns.
         * For the Pico 2 (150 MHz), each CPU cycle is approximately 6.67 ns.
     * The `soft_delay_us()` function includes a calibration constant (currently -7) that may need to be fine-tuned 🛠️ for specific hardware setups to achieve the most accurate timing.
-* Dual-Core Operation: Core 0 handles the USB communication ↔️ and parsing of JSON commands. Core 1 is dedicated to the precise timing required for the SWI communication, using the `multicore_fifo_push_blocking()` and `multicore_fifo_pop_blocking()` functions for inter-core communication.
-* SWI Emulation: The SWI communication is implemented using open-drain GPIO control 🔌. The `sio_set_high()` function sets the GPIO pin to input mode (high), and `sio_set_low()` sets it to output mode (low).
-* JSON Parsing: The `jsmn` library is used to parse the incoming JSON commands 🧾. The `jsoneq()` function is used to compare JSON tokens.
-* Building: The `CMakeLists.txt` file 🧱 defines the build process, including setting compiler flags and linking libraries.
+* **Dual-Core Operation:**
+    * Core 0 handles the USB communication ↔️ and parsing of JSON commands.
+    * Core 1 is dedicated to the precise timing required for the SWI communication, using the `multicore_fifo_push_blocking()` and `multicore_fifo_pop_blocking()` functions for inter-core communication.
+    * The decision to offload low-level SWI tasks to Core 1 was made to **minimize the risk of IRQ interruptions** that could disrupt critical timing. For example, during command execution:
+      ```c
+      uint32_t irq_status = save_and_disable_interrupts();
+      switch (cmd) {
+          case TX_BYTE:
+              ack = tx_byte(data);
+              break;
+          case DISCOVERY:
+              ack = discovery_response();
+              break;
+          case RX_BYTE:
+              ack = rx_byte(data);
+              break;
+          default:
+              ack = 0xFF;  // Unknown command error.
+              break;
+      }
+      restore_interrupts(irq_status);
+      ```
+      *Disabling interrupts during these sections ensures accurate signal timing for reliable SWI emulation.*
+* **SWI Emulation:** The SWI communication is implemented using open-drain GPIO control 🔌. The `sio_set_high()` function sets the GPIO pin to input mode (high), and `sio_set_low()` sets it to output mode (low).
+* **JSON Parsing:** The `jsmn` library is used to parse the incoming JSON commands 🧾. The `jsoneq()` function is used to compare JSON tokens.
+* **Building:** The `CMakeLists.txt` file 🧱 defines the build process, including setting compiler flags and linking libraries.
 
 ---
 
