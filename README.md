@@ -41,7 +41,7 @@ A firmware tool 🛠️ for testing SWI (Single-Wire Interface) EEPROM emulators
 
 * Raspberry Pi Pico 2 (RP2350) or Raspberry Pi Pico (RP2040)
 
-![Pico 2 RP2350](images/pico2_over_emulator.png)
+ ![Pico 2 RP2350](images/pico2_over_emulator.png)
 
 * Device with an AT21CS11 SWI EEPROM interface or an [emulator](https://github.com/jjsch-dev/at21cs11-eeprom-emulator/) of it.
 
