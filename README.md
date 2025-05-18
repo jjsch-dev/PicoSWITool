@@ -127,7 +127,7 @@ cd ~/development
 
 ```bash
 # Clone the PicoSWITool repository from GitHub
-git clone [https://github.com/jjsch-dev/PicoSWITool.git](https://github.com/jjsch-dev/PicoSWITool.git)
+git clone https://github.com/jjsch-dev/PicoSWITool.git
 ```
 
 ```bash
@@ -157,8 +157,8 @@ cmake -DPICO_BOARD=pico2 ..
 
 ```bash
 # Build the project using multiple parallel jobs for faster compilation.
-# Replace '<span class="math-inline">\(nproc\)' with the number of CPU cores you have for optimal performance\.
-make \-j</span>(nproc)
+# '$(nproc)' will automatically be replaced by the number of CPU cores\.
+make -j$(nproc)
 ```
 
 If the build is successful, you should see output similar to:
