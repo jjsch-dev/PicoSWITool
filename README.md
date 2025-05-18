@@ -406,8 +406,8 @@ This example illustrates how to use the `readBlock` command to retrieve a contig
     * While the Raspberry Pi Pico's PIO (Programmable Input/Output) units 🕹️ offer the capability to generate precise bit-bang timing, this project utilizes software-based delays ⏳ for greater flexibility during testing. This allows for easier adjustment of timing parameters to accommodate different EEPROM devices or emulation scenarios.
     * Precise timing is achieved on Core 1 using the `soft_delay_us()` function ⚙️. This function employs cycle counting to introduce delays in microseconds, taking into account the Pico's clock speed.
     * The delay is calculated based on the following:
-        * For the original Pico (125 MHz), each CPU cycle is approximately 8 ns.
         * For the Pico 2 (150 MHz), each CPU cycle is approximately 6.67 ns.
+        * For the Pico 1 (125 MHz), each CPU cycle is approximately 8 ns.
     * The `soft_delay_us()` function includes a calibration constant (currently -7) that may need to be fine-tuned 🛠️ for specific hardware setups to achieve the most accurate timing.
 * **Dual-Core Operation:**
     * Core 0 handles the USB communication ↔️ and parsing of JSON commands.
